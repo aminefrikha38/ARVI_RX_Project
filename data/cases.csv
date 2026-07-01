@@ -1,0 +1,4 @@
+case_id,image_name,true_label,comment
+case_001,test_1.png,normal,Image de test normale ou supposée normale
+case_002,test_2.png,suspected_opacity,Image de test avec suspicion d’opacité
+case_003,test_3.png,uncertain,Image de mauvaise qualité ou ambiguë

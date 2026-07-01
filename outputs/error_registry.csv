@@ -1,0 +1,5 @@
+case_id,true_label,predicted_label,error_type,comment
+case_001,normal,suspected_opacity,false_positive,Le système signale une opacité alors que le cas est attendu normal.
+case_002,suspected_opacity,normal,false_negative,Le système ne signale pas une opacité attendue.
+case_003,normal,uncertain,acceptable_uncertainty,L’image est ambiguë ou de qualité limitée.
+case_004,normal,suspected_opacity,hallucination,Le système mentionne un élément visuel non vérifiable.
