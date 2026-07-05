@@ -1,0 +1,3 @@
+model_name,accuracy,macro_f1,sensitivity,specificity,uncertain_rate,json_validity,avg_latency_ms,false_positives,false_negatives,confusion_matrix
+toy_baseline_v1,0.65,0.677,0.875,0.5,0.2,1.0,31.16,6,1,"[[2, 6, 0], [1, 7, 0], [0, 0, 4]]"
+improved_baseline_v1,0.65,0.677,0.875,0.5,0.2,1.0,25.59,6,1,"[[2, 6, 0], [1, 7, 0], [0, 0, 4]]"

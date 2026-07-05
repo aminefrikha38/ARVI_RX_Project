@@ -2,6 +2,7 @@ import sys
 import time
 from pathlib import Path
 
+
 import pandas as pd
 import streamlit as st
 
@@ -12,11 +13,12 @@ from src.preprocessing import preprocess_image
 from src.baseline import run_baseline_prediction
 from src.guardrails import apply_guardrails
 from src.logger import save_log
+from src.database import save_prediction_sqlite
 
 
-st.set_page_config(page_title="ARVI-RX", layout="wide")
+st.set_page_config(page_title="ClariRX", layout="wide")
 
-st.title("ARVI-RX — Assistant radiologique virtuel responsable")
+st.title("ClariRX — Assistant radiologique virtuel responsable")
 
 st.warning(
     "Position non clinique : ce prototype est uniquement pédagogique. "
@@ -26,7 +28,7 @@ st.warning(
 
 page = st.sidebar.radio(
     "Navigation",
-    ["Analyse", "Logs"]
+    ["Analyse", "Logs", "Dashboard"]
 )
 
 if page == "Analyse":
@@ -66,6 +68,15 @@ if page == "Analyse":
                 final_output=final_output
             )
 
+            save_prediction_sqlite(
+                image_name=uploaded_file.name,
+                prompt_version="baseline_prompt_v1",
+                model_name="toy_baseline_v1",
+                latency_ms=latency_ms,
+                raw_output=raw_output,
+                final_output=final_output
+            )
+
             st.subheader("Contrôle qualité image")
             st.json(quality_info)
 
@@ -84,3 +95,46 @@ elif page == "Logs":
         st.dataframe(df, use_container_width=True)
     else:
         st.info("Aucun log disponible pour l’instant. Lance d’abord une analyse.")
+
+elif page == "Dashboard":
+    st.header("Dashboard d’évaluation")
+
+    summary_path = Path("data/results/comparison_summary.csv")
+    baseline_path = Path("data/results/results_baseline.csv")
+    improved_path = Path("data/results/results_improved.csv")
+
+    if summary_path.exists():
+        summary_df = pd.read_csv(summary_path)
+
+        st.subheader("Comparaison baseline vs version améliorée")
+        st.dataframe(summary_df, use_container_width=True)
+
+        st.subheader("Métriques principales")
+
+        for _, row in summary_df.iterrows():
+            st.markdown(f"### {row['model_name']}")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            col1.metric("Accuracy", row["accuracy"])
+            col2.metric("Macro-F1", row["macro_f1"])
+            col3.metric("Taux d'incertitude", row["uncertain_rate"])
+            col4.metric("Latence moyenne", row["avg_latency_ms"])
+
+            st.write("Faux positifs :", row["false_positives"])
+            st.write("Faux négatifs :", row["false_negatives"])
+            st.write("Validité JSON :", row["json_validity"])
+
+    else:
+        st.info(
+            "Aucun résultat de comparaison disponible. "
+            "Lance d’abord : python eval\\run_comparison.py"
+        )
+
+    if baseline_path.exists():
+        st.subheader("Résultats détaillés baseline")
+        st.dataframe(pd.read_csv(baseline_path), use_container_width=True)
+
+    if improved_path.exists():
+        st.subheader("Résultats détaillés version améliorée")
+        st.dataframe(pd.read_csv(improved_path), use_container_width=True)

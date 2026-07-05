@@ -44,7 +44,17 @@ Les classes autorisées sont :
 - Évaluation simple
 - Registre d’erreurs
 
-## Installation
+## Should Have : comparaison baseline vs improved
+
+La baseline initiale utilise une heuristique simple basée sur la qualité d’image et un score visuel d’opacité.
+
+La version améliorée ajoute une règle plus prudente :
+- seuil plus strict pour suspected_opacity ;
+- utilisation de uncertain en cas de signal faible ;
+- réduction des faux positifs.
+
+Pour lancer la comparaison :
 
 ```bash
+python eval/run_comparison.py
 python -m venv .venv
