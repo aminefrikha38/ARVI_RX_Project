@@ -1,4 +1,21 @@
 case_id,image_name,true_label,comment
-case_001,test_1.png,normal,Image de test normale ou supposée normale
-case_002,test_2.png,suspected_opacity,Image de test avec suspicion d’opacité
-case_003,test_3.png,uncertain,Image de mauvaise qualité ou ambiguë
+case_001,case_001.png,normal,Cas normal issu du dataset RSNA Training
+case_002,case_002.png,normal,Cas normal issu du dataset RSNA Training
+case_003,case_003.png,normal,Cas normal issu du dataset RSNA Training
+case_004,case_004.png,normal,Cas normal issu du dataset RSNA Training
+case_005,case_005.png,normal,Cas normal issu du dataset RSNA Training
+case_006,case_006.png,normal,Cas normal issu du dataset RSNA Training
+case_007,case_007.png,normal,Cas normal issu du dataset RSNA Training
+case_008,case_008.png,normal,Cas normal issu du dataset RSNA Training
+case_009,case_009.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_010,case_010.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_011,case_011.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_012,case_012.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_013,case_013.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_014,case_014.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_015,case_015.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_016,case_016.png,suspected_opacity,Cas avec opacité annotée dans le dataset RSNA Training
+case_017,case_017.png,uncertain,Image volontairement dégradée pour tester la classe uncertain
+case_018,case_018.png,uncertain,Image volontairement dégradée pour tester la classe uncertain
+case_019,case_019.png,uncertain,Image volontairement dégradée pour tester la classe uncertain
+case_020,case_020.png,uncertain,Image volontairement dégradée pour tester la classe uncertain

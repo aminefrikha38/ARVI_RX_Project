@@ -1,5 +1,8 @@
 case_id,true_label,predicted_label,error_type,comment
-case_001,normal,suspected_opacity,false_positive,Le système signale une opacité alors que le cas est attendu normal.
-case_002,suspected_opacity,normal,false_negative,Le système ne signale pas une opacité attendue.
-case_003,normal,uncertain,acceptable_uncertainty,L’image est ambiguë ou de qualité limitée.
-case_004,normal,suspected_opacity,hallucination,Le système mentionne un élément visuel non vérifiable.
+case_001,normal,suspected_opacity,false_positive,La baseline surinterprète une zone claire sur une image normale.
+case_002,normal,suspected_opacity,false_positive,Le score d'opacité heuristique est trop sensible.
+case_003,normal,normal,correct,Cas normal correctement classé.
+case_009,suspected_opacity,suspected_opacity,correct,Cas avec opacité correctement signalé.
+case_010,suspected_opacity,normal,false_negative,L'heuristique ne détecte pas suffisamment le signal visuel attendu.
+case_017,uncertain,uncertain,acceptable_uncertainty,L'image dégradée est correctement classée incertaine.
+case_018,uncertain,uncertain,acceptable_uncertainty,L'incertitude est acceptable car la qualité d'image est faible.

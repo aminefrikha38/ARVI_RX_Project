@@ -1,30 +1,63 @@
 def run_baseline_prediction(quality_info):
     """
     Baseline jouet reproductible.
-    Elle ne fait pas encore de vrai diagnostic visuel.
-    Elle sert à tester la chaîne complète :
-    image -> prédiction -> JSON -> garde-fous -> logs -> évaluation.
+
+    Elle utilise :
+    - la qualité de l'image
+    - un score visuel simple d'opacité
+    - une règle d'incertitude
+
+    Ce n'est pas un modèle médical.
+    Cette baseline sert à tester la chaîne complète du projet.
     """
 
     image_quality = quality_info["image_quality"]
+    opacity_score = quality_info.get("opacity_score", 0)
+    bright_ratio = quality_info.get("bright_ratio", 0)
+    asymmetry = quality_info.get("asymmetry", 0)
 
     if image_quality == "poor":
         predicted_class = "uncertain"
         confidence = 0.35
-        visual_evidence = ["Image quality is too low for a reliable educational interpretation."]
-        justification = "The image quality is insufficient, so the safest output is uncertain."
+        visual_evidence = [
+            "Image quality is too low for a reliable educational interpretation."
+        ]
+        justification = (
+            "The image quality is insufficient, so the safest output is uncertain."
+        )
 
     elif image_quality == "limited":
         predicted_class = "uncertain"
         confidence = 0.50
-        visual_evidence = ["Limited contrast or ambiguous visual information."]
-        justification = "The image contains limited information, so the system avoids a confident classification."
+        visual_evidence = [
+            "Limited contrast or ambiguous visual information."
+        ]
+        justification = (
+            "The image contains limited information, so the system avoids a confident classification."
+        )
+
+    elif opacity_score >= 0.09 or bright_ratio >= 0.12 or asymmetry >= 0.04:
+        predicted_class = "suspected_opacity"
+        confidence = 0.70
+        visual_evidence = [
+            f"Opacity heuristic score: {round(opacity_score, 4)}",
+            f"Bright area ratio: {round(bright_ratio, 4)}",
+            f"Left/right asymmetry: {round(asymmetry, 4)}"
+        ]
+        justification = (
+            "The baseline detects a visual pattern that may correspond to a suspected opacity. "
+            "This is only an educational heuristic."
+        )
 
     else:
         predicted_class = "normal"
         confidence = 0.65
-        visual_evidence = ["No obvious opacity pattern detected by the baseline heuristic."]
-        justification = "The baseline does not detect obvious suspicious visual evidence."
+        visual_evidence = [
+            "No obvious opacity pattern detected by the baseline heuristic."
+        ]
+        justification = (
+            "The baseline does not detect obvious suspicious visual evidence."
+        )
 
     return {
         "image_quality": image_quality,
@@ -35,7 +68,8 @@ def run_baseline_prediction(quality_info):
         "limitations": [
             "Baseline pédagogique simple.",
             "Ne remplace pas une analyse médicale.",
-            "Ne détecte pas réellement toutes les anomalies."
+            "Ne détecte pas réellement toutes les anomalies.",
+            "Le score d'opacité est une heuristique expérimentale."
         ],
         "warning": "Prototype pédagogique uniquement. Cette sortie ne constitue pas un diagnostic médical."
     }
